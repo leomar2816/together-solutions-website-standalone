@@ -1,0 +1,8 @@
+# Send every /api/* request to index.php; never serve the PHP includes or config directly.
+Options -Indexes
+<FilesMatch "^(bootstrap|upload|config|config\.example|create-admin)\.php$">
+  Require all denied
+</FilesMatch>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L,QSA]
