@@ -77,8 +77,10 @@ const Image = React.forwardRef(
     if (!parsed) {
       const isErrorMode = mode === IMAGE_LOAD_MODE.FALLBACK
       const imageSrc = isErrorMode ? FALLBACK_IMAGE_URL : getOriginalImageUrl(src, parsedSource)
+      // No image server crops local files, so crop in CSS as ResponsiveImage does; otherwise "fill" stretches.
+      const style = { objectFit: fittingType === "fit" ? "contain" : "cover", ...imageProps.style }
       return (
-        <img ref={ref} src={imageSrc} {...imageProps} data-error-image={isErrorMode || undefined} />
+        <img ref={ref} src={imageSrc} {...imageProps} style={style} data-error-image={isErrorMode || undefined} />
       )
     }
 
